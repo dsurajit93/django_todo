@@ -1,0 +1,83 @@
+{% extends 'base.html' %} 
+{% block title %} || Profile{% endblock title %}
+{% block content %}
+<style>
+#profile{
+    margin-top: 50px;
+}
+#profile img{
+    border-radius: 200px;
+    margin-top: -100px;
+}
+#changeLink{
+    display: block;
+    width: 100px;
+    margin-top: -70px;
+    text-decoration: none;
+    border: 1px solid black;
+    margin-left: 40%;
+    padding: 10px;
+    color: white;
+}
+</style>
+
+<section id="profile" class="bg-light py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card">
+            <div class="card-header bg-primary text-white text-center">
+                <img src="{{user.photo.url}}" height="200" width="200">
+                <a href="" id="changeLink" data-toggle="modal" data-target="#photoChangeModal">Change</a>
+                <h2 class="mt-3"> {{user.name}}</h2> 
+            </div>
+            <div class="card-body">
+             <!-- ALerts -->
+            {% include 'partials/_alert.html' %}
+            <table class="table">
+                <tr>
+                    <th>Email</th>
+                    <td>{{user.email}}</td>
+                </tr>
+                <tr>
+                    <th>Phone</th>
+                    <td>{{user.phone}}</th>
+                </tr>
+                <tr>
+                    <th>Password</th>
+                    <td>****** <a href="">Change Password</a></th>
+                </tr>
+            </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+   {% comment %} Photo Chnage Modal {% endcomment %}
+  <div class="modal fade" id="photoChangeModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-light">
+          <h5 class="modal-title" id="inquiryModalLabel">Chnage Your Profile Image</h5>
+          <button type="button" class="close" data-dismiss="modal">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action={% url 'change_photo' %} method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+        
+            <div class="form-group">
+                  <label for="photo">Photo</label>
+                  <input type="file" name="photo" class="form-control-file">
+                </div>
+                <input type="submit" value="Upload" class="btn btn-dark btn-block">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
